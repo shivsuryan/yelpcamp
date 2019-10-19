@@ -19,6 +19,10 @@ app.get("/campgrounds",(req,res) => {
     res.render("campgrounds", {campgrounds:campgrounds});
 });
 
+app.get("*", function(req,res){
+    res.render("pageNotFound");
+});
+
 app.listen(port, () => {
     console.log("Server started. Listening on port "+port);
 })
