@@ -1,5 +1,12 @@
 <% include partials/header %>
 <div class="container">
+    <div class="jumbotron">
+        <h1>Campgrounds</h1>
+        <p>Below is the list of all campgrounds that we have for you.</p>
+        <p><a class="btn btn-primary btn-lg" href="/campgrounds/new" role="button">Add new Campground</a></p>
+    </div>
+</div>
+<div class="container">
     <div class="row">
         <% campgrounds.forEach(function(campground){ %>
 
