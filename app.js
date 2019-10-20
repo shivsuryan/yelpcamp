@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var port = 3000;
 
-mongoose.connect('mongodb://localhost/yelpcamp');
+mongoose.connect('mongodb://localhost/yelpcamp',{ useNewUrlParser: true,useUnifiedTopology: true});
 
 var campgroundSchema = mongoose.Schema({
     name: String,
