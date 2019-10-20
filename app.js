@@ -23,22 +23,30 @@ app.get("/", (req, res) => {
 });
 
 app.get("/campgrounds", (req, res) => {
-    Campground.find({},function(err,campgrounds){
-        if(err){
+    Campground.find({}, function (err, campgrounds) {
+        if (err) {
             console.log("Error happened!!!!");
             console.log(err);
-        }else{
+        } else {
             res.render("campgrounds", { campgrounds: campgrounds });
         }
     })
 });
 
 app.post("/campgrounds", (req, res) => {
-    var campName = req.body.campname;
-    var campUrl = req.body.campurl;
-    campgrounds.push({ name: campName, image: campUrl });
-    res.redirect('/campgrounds');
-    //res.render("campgrounds", {campgrounds:campgrounds});
+    var nameReq = req.body.name;
+    var imageUrlReq = req.body.imageUrl;
+    Campground.create({
+        name: nameReq,
+        imageUrl: imageUrlReq
+    }, function (err, campground) {
+        if (err) {
+            console.log('Something Happened!!!');
+            console.log(err);
+        } else {
+            res.redirect('/campgrounds');
+        }
+    });
 });
 
 app.get("/campgrounds/new", function (req, res) {
