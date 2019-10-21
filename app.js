@@ -51,7 +51,7 @@ app.get("/campgrounds/new", function (req, res) {
 
 app.get("/campgrounds/:id", function (req, res) {
     var idUrl = req.params.id;
-    Campground.findById(idUrl, function (err, foundCampground) {
+    Campground.findById({ idUrl }).populate('comments').exec(function (err, foundCampground) {
         if (err) {
             console.log('Something Happened!!!');
             console.log(err);
