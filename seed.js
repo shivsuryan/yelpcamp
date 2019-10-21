@@ -22,25 +22,27 @@ var data = [
 
 function seedDB() {
     Campground.deleteMany({}, function () {
-        console.log('All the old data removed.')
-        data.forEach(function (seed) {
-            Campground.create(seed, function (err, campground) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log('Campground created.');
-                    Comment.create({
-                        text: 'This place is awsome!!!',
-                        author: 'Admin'
-                    }, function (err, comment) {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            campground.comments.push(comment);
-                            campground.save();
-                        }
-                    })
-                }
+        Comment.deleteMany({}, function () {
+            console.log('All the old data removed.')
+            data.forEach(function (seed) {
+                Campground.create(seed, function (err, campground) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log('Campground created.');
+                        Comment.create({
+                            text: 'This place is awsome!!!',
+                            author: 'Admin'
+                        }, function (err, comment) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                campground.comments.push(comment);
+                                campground.save();
+                            }
+                        })
+                    }
+                })
             })
         })
     });
