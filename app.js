@@ -4,11 +4,12 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var port = 3000;
 
-mongoose.connect('mongodb://localhost/yelpcamp',{ useNewUrlParser: true,useUnifiedTopology: true});
+mongoose.connect('mongodb://localhost/yelpcamp', { useNewUrlParser: true, useUnifiedTopology: true });
 
 var campgroundSchema = mongoose.Schema({
     name: String,
-    imageUrl: String
+    imageUrl: String,
+    description: String
 })
 
 var Campground = mongoose.model("Campground", campgroundSchema);
@@ -36,9 +37,11 @@ app.get("/campgrounds", (req, res) => {
 app.post("/campgrounds", (req, res) => {
     var nameReq = req.body.name;
     var imageUrlReq = req.body.imageUrl;
+    var descriptionReq = req.body.description;
     Campground.create({
         name: nameReq,
-        imageUrl: imageUrlReq
+        imageUrl: imageUrlReq,
+        description: descriptionReq
     }, function (err, campground) {
         if (err) {
             console.log('Something Happened!!!');
@@ -51,6 +54,18 @@ app.post("/campgrounds", (req, res) => {
 
 app.get("/campgrounds/new", function (req, res) {
     res.render("newCampground");
+});
+
+app.get("/campgrounds/:id", function (req, res) {
+    var idUrl = req.params.id;
+    Campground.findById(idUrl, function (err, foundCampground) {
+        if (err) {
+            console.log('Something Happened!!!');
+            console.log(err);
+        } else {
+            res.render("show", { campground: foundCampground });
+        }
+    })
 });
 
 app.get("*", function (req, res) {
