@@ -3,9 +3,12 @@ var request = require('request');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var Campground = require("./models/campground");
+var seedDB = require('./seed');
 var port = 3000;
 
 mongoose.connect('mongodb://localhost/yelpcamp', { useNewUrlParser: true, useUnifiedTopology: true });
+
+seedDB();
 
 var app = express();
 app.set("view engine", "ejs");
