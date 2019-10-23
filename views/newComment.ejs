@@ -1,0 +1,29 @@
+<% include partials/header %>
+<div class="container">
+    <div class="row">
+        <div style="text-align: center">
+            <h1 style="font-size: 25px">Add a new Comment</h1>
+        </div>
+        <div class="center-block" style="width: 40%; margin-top: 20px">
+            <form action="/campgrounds/<%=id%>/comments/new" method="POST">
+                <div class="form-group">
+                    <!-- <label for="campnameId">Name</label> -->
+                    <input type="text" class="form-control" id="comment" placeholder="Comment here."
+                        name="comment">
+                </div>
+                <div class="form-group">
+                    <!-- <label for="campurlId">Image URL</label> -->
+                    <input type="text" class="form-control" id="username" placeholder="Enter your username here."
+                        name="username">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+<% include partials/footer %>
+<!-- <form action="/campgrounds" method="POST">
+    <input type="text" name="campname" placeholder="Enter Campground Name">
+    <input type="text" name="campurl" placeholder="Enter the image URL">
+    <input type="submit">
+</form> -->

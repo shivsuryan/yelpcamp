@@ -3,6 +3,7 @@ var request = require('request');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var Campground = require("./models/campground");
+var Comment = require('./models/comment');
 var seedDB = require('./seed');
 var port = 3000;
 
@@ -64,10 +65,44 @@ app.get("/campgrounds/:id", function (req, res) {
     })
 });
 
-app.get("*", function (req, res) {
-    res.render("pageNotFound");
+app.get("/campgrounds/:id/comments/new", function (req, res) {
+    var id = req.params.id;
+    res.render('newComment',{id:id});
 });
 
-app.listen(port, () => {
-    console.log("Server started. Listening on port " + port);
-})
+app.post("/campgrounds/:id/comments/new", function (req, res) {
+    var _id = req.params.id;
+    var comment = req.body.comment;
+    var username = req.body.username;
+    console.log('id: '+_id);
+    console.log('comment: '+comment);
+    console.log('username: '+username);
+    Campground.findById({ _id }).populate('comments').exec(function (err, foundCampground) {
+        if (err) {
+            console.log(err);
+        } else {
+            Comment.create({
+                text: req.body.comment,
+                author: req.body.username
+            }, function (err, comment) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    foundCampground.comments.push(comment);
+                    comment.save();
+                    foundCampground.save();
+                    console.log('Comment added to database');
+                    res.redirect('/campgrounds/' + _id);
+                }
+            })
+        }
+    })
+});
+
+    app.get("*", function (req, res) {
+        res.render("pageNotFound");
+    });
+
+    app.listen(port, () => {
+        console.log("Server started. Listening on port " + port);
+    })
